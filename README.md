@@ -140,4 +140,114 @@ Petra: https://chrome.google.com/webstore/detail/petra-aptos-wallet/ejjladinnckd
 
 "royalty_points_numerator": telif hakkı puanlarının payı.
 
-`presaleMintTime`: satış öncesi basım süresi, beyaz listedeki kullanıcı bundan sonra basabilir. unix zaman damgası i
+`presaleMintTime`: satış öncesi basım süresi, beyaz listedeki kullanıcı bundan sonra basabilir. unix zaman damgası 
+`presaleMintTime`: satış öncesi basım süresi, beyaz listedeki kullanıcı bundan sonra basabilir. saniye cinsinden unix zaman damgası. https://www.unixtimestamp.com/
+
+`publicMintTime`: genel nane zamanı. saniye cinsinden unix zaman damgası. https://www.unixtimestamp.com/
+
+`whitelistDir`: Beyaz liste dosyasının yolu.
+
+Beyaz liste dosyası, aşağıdaki biçimde bir metin dosyasıdır:
+
+```txt
+0x6c4e890a882b013f82a65db9b917a6d285caa892e46f2d93808b56f2aab2dd92 2
+0x9d40f83eee59912yatak7488d49becd5274ec21c66c40931c9db95a501e03ecee2 3
+0x6c4e890a882b013f82a65db9b917a6d285caa892e46f2d93808b56f2aab2dd92 2
+```
+her satırın bir cüzdan adresi olmalı ve bu cüzdan beyaz liste aşamasında kaç tane basabilir?
+### Candymachine meta verileri
+```
+     "şeker makinesi": {
+         "cmPublicKey": "",
+         "cmPrivateKey": ""
+     },
+```
+Devnet veya testnet'te "cmPublicKey" ve "cmPrivateKey" alanlarını boş bırakın, bunlar otomatik olarak oluşturulacak ve finanse edilecektir.
+Ana ağda, önce bir hesap oluşturmanız ve ona para göndermeniz gerekir (şeker makinenizi oluşturmak için kullanılır, bu nedenle gazı karşılamak için biraz paranız olduğundan emin olun). Daha sonra hesap adresini ve özel anahtarı dışa aktarmanız ve bunları config.json'a girmeniz gerekir.
+
+### Depolamak
+Ürünlerinizi yüklemek için iki seçenek sunuyoruz. Pinata'yı burada örnek olarak kullanacağız. Lütfen arweave'i nasıl kuracağınızı kendiniz araştırın.
+```
+"depolamak": {
+     "çözüm": "pinata",
+     "pinata": {
+         "pinataApi": "https://api.pinata.cloud/pinning/pinFileToIPFS",
+         "pinataPublicKey": "",
+         "pinataSecretKey": ""
+     },
+     "örgü": {
+         "keyfilePath": "/Kullanıcılar/Paylaşılan/arweave-keyfile.json"
+     }
+},
+```
+Resimlerinizi ve meta verilerinizi ipfs'ye toplu yüklemek için [Pinata](https://www.pinata.cloud/?gclid=CjwKCAjwu5yYBhAjEiwAKXk_eKjm7QEJ2EiRMrXVFVECHFCmRmuHj3btPYzJCxhBLU7XdN0np5vTdBoC6n0QAvD_BwE) kullanacağız. Pinata, NFT görüntülerini ve meta verileri ipfs'ye yüklemek için en çok kullanılan hizmettir.
+
+Bir hesap kaydedin -> sağ üstteki simgeye tıklayın -> API anahtarına tıklayın -> Yeni Anahtar -> pinFileToIPFS'yi etkinleştirin -> genel anahtarınızı ve özel anahtarınızı kopyalayın.
+
+"src" klasörü altındaki "config.json" dosyasını açın (VS kodunu veya başka bir IDE kullanarak).
+
+Pinata tuşlarını ayarlayın.
+json
+"pinata" :{
+"pinataApi": "https://api.pinata.cloud/pinning/pinFileToIPFS",
+"pinataPublicKey": "pinata genel anahtarınız"
+"pinataSecretKey": "pinata gizli anahtarınız"
+}
+```
+
+### Ağ değiştir
+"constants.py"ye gidin ve "MODE"u "testnet" için "test", "devnet" için "dev" ve "mainnet" için "mainnet" olarak değiştirin.
+`candyMachineInfo.js` içindeki modun aynı olarak ayarlandığından emin olun.
+
+### Şeker makinesi oluştur
+src klasörü altında çalıştırın
+``` bash
+python3 cli.py
+```
+"Şeker makinesi oluştur"u seçin.
+
+***Devnet veya testnet'te bazı apto'ları otomatik olarak şeker makinesi hesabına yatırdık.***
+
+Devnet'te daha fazla aptoya ihtiyacınız varsa, "create_candy_machine.py" içindeki "prepareCandyMachineAccount" hesabına fon sağlamak için "faucet_client" nasıl kullanılacağını kontrol edin. Örnek olarak, bir for döngüsü yazabilirsiniz:
+```
+aralık(15) içindeki i için:
+     musluk_client.fund_account(alice.address(), 100000000)
+```
+
+İzin verilen maksimum gas miktarını değiştirmek isterseniz, "constants.py" içinde "MAX_GAS" değerini artırabilirsiniz.
+
+### İlave fonksiyonlar
+Satış öncesi basım süresini, genel basım süresini, basım ücretini ve beyaz listeyi güncellemek için seçenekler sunuyoruz. Basitçe `config.json` içindeki değerleri değiştirin ve güncellemek için ilgili komutu çalıştırın.
+
+***Güncelleme WL, geçmiş WL yapılandırmasını geçersiz kılacaktır. Daha fazla wl noktası eklemek istiyorsanız, önceki dosyanın altına ekleyin ve yükleyin.***
+
+### Web sitesi oluştur
+npm kurulu olmalıdır, bu basit web sitesini oluşturmak için nextJS kullanıyoruz
+
+"mint-site/helpers/candyMachineInfo.js" içindeki değerleri değiştirin - bu bilgileri config.json'unuzda bulabilirsiniz:
+
+```txt
+export const candyMachineAddress = "CM ADRESİNİZ";
+export const collectionName = "koleksiyon adı(Büyük/küçük harfe duyarlı!)";
+export const collectionCoverUrl = " KAPAK BAĞLANTISI Örn: https://cloudflare-ipfs.com/ipfs/asjdhasjhd";
+dışa aktarma sabiti COLLECTION_SIZE = 10
+```
+
+mint-site klasörünü aç, çalıştır
+
+``` bash
+npm kurulum
+```
+
+o zaman koş
+``` bash
+npm geliştiriciyi çalıştır
+```
+# Aklı kontrol
+1. Her şeyin çalışıp çalışmadığını kontrol etmek için önce örnek görüntüleri ve meta verileri kullanın.
+2. Bastırmanın başarılı olup olmadığını kontrol etmek için cli'den test mint işlevini kullanın (tercihen önce devnet ve testnet'te). Test nane, koleksiyonunuzdan BİR nft'yi karıştırmaya çalışacak. Devnet'te program otomatik olarak 3 Aptos bırakacak, testnet ve mainnet'te cm hesabınızda yeterli bakiye olduğundan emin olun.)
+
+
+# Sorun giderme
+
+1. ERESOURCE_ACCOUNT_EXISTS: Şu anda bir cüzdan bir kaynak hesabı tutabilir, bu normalde ana ağda şekerleme makinesi oluştururken olur ve herhangi bir nedenle (kullanıcı kesintisi veya diğer hatalar) işlem tamamlanmadı. Koleksiyonunuz başarıyla oluşturulduysa, cli menüsünden `Retry failed uploads` seçeneğini deneyin. Aksi takdirde, paranızı yeni bir cüzdana taşıyın ve hesap adresini ve özel anahtarı config.json'a yapıştırın ve yeniden şekerleme makinesi oluşturmayı deneyin.
