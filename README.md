@@ -206,7 +206,7 @@ python3 cli.py
 ```
 "Şeker makinesi oluştur"u seçin.
 
-***Devnet veya testnet'te bazı apto'ları otomatik olarak şeker makinesi hesabına yatırdık.***
+***Devnet veya testnet'de bazı aptos'ları otomatik olarak şeker makinesi hesabına yatırdık.***
 
 Devnet'te daha fazla aptoya ihtiyacınız varsa, "create_candy_machine.py" içindeki "prepareCandyMachineAccount" hesabına fon sağlamak için "faucet_client" nasıl kullanılacağını kontrol edin. Örnek olarak, bir for döngüsü yazabilirsiniz:
 ```
@@ -236,12 +236,11 @@ dışa aktarma sabiti COLLECTION_SIZE = 10
 mint-site klasörünü aç, çalıştır
 
 ``` bash
-npm kurulum
+npm install
 ```
 
-o zaman koş
 ``` bash
-npm geliştiriciyi çalıştır
+npm run dev
 ```
 # Aklı kontrol
 1. Her şeyin çalışıp çalışmadığını kontrol etmek için önce örnek görüntüleri ve meta verileri kullanın.
