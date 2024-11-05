@@ -2,8 +2,7 @@
 
 Aptos veya herhangi bir NFT projesine bağlı değilim. Emoji XoX ve Ghost XoX Hariç!!!
 
-- Emoji XoX: https://emojixox.io/
-- Ghost XoX: https://ghostxox.com/
+- Emoji XoX: https://emojixox.xyz/ 
 
 # Bu nedir ?
 
@@ -13,7 +12,7 @@ Youtube: https://www.youtube.com/channel/UCpqLwqabJb1entJ0pVbFplA
 
 Instagram: https://www.instagram.com/firatozbeys/
 
-Twitter: https://twitter.com/firatozbeys
+Twitter: https://x.com/SotpaCommunity
 
 Sorular için discord: https://discord.gg/zJhuMdN4uS
 
